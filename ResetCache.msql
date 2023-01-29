@@ -1,0 +1,17 @@
+/*
+	Author : Ramesh Jayal
+	Git Hub: https://github.com/JayalRamesh/MOCA
+	Date   : 10-Jan-2012.
+	
+	Description : Certain configuration changes (due to Cached Polices) of BlueYonder WMS requires 
+	bouncing of Server, it is very difficult for High-Availability Business
+	critical application. Below command will clear all policies,
+*/
+
+[[
+
+    import com.redprairie.wmd.policies.PolicyUtils;
+
+    PolicyUtils.getInstance().resetCache();
+
+]]
