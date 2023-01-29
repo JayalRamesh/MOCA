@@ -1,0 +1,31 @@
+/*
+	Author : Ramesh Jayal
+	Git Hub: https://github.com/JayalRamesh/MOCA
+	Date   : 10-Jan-2012.
+	
+	Description : This script can be used to empty the listed Storage Locations.
+*/
+
+publish data
+ where wh_id = '<Warehouse_ID>'
+   and loc_list = '<Comma-seperated-locations>'
+|
+convert list
+ where delimiter = ','
+   and string = @loc_list
+   and type = 'L'
+|
+[select *
+   from inventory_view
+  where @+wh_id
+    and stoloc @retstr] catch(@?)
+|
+if (@? = 0)
+{
+    move inventory
+     where srcdtl = @dtlnum
+       and actcod = "INVDEL"
+       and wh_id = @wh_id
+       and dstloc = "PERM-ADJ-LOC"
+       and untqty = @untqty catch(@?)
+}
